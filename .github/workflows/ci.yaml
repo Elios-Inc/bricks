@@ -1,0 +1,81 @@
+name: Starter Kit CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - master
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - 'convex/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.ts'
+      - 'tsconfig.json'
+      - 'eslint.config.mjs'
+      - 'postcss.config.mjs'
+      - '.github/workflows/ci.yaml'
+      - '!**/*.md'
+      - '!**/*.mdx'
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install:
+    name: Install Dependencies
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+
+      - name: Cache node_modules
+        id: cache-nm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: nm-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-nm.outputs.cache-hit != 'true'
+        run: npm ci
+
+  lint-build:
+    name: Lint and Build
+    needs: install
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    env:
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Restore node_modules
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: nm-${{ hashFiles('package-lock.json') }}
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run build
+        run: npm run build
