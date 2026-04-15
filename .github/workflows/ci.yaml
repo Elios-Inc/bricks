@@ -1,4 +1,4 @@
-name: Starter Kit CI
+name: Bricks CI
 
 on:
   pull_request:
@@ -8,7 +8,6 @@ on:
     paths:
       - 'app/**'
       - 'components/**'
-      - 'convex/**'
       - 'public/**'
       - 'package.json'
       - 'package-lock.json'

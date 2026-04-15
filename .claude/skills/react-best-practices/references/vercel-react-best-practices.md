@@ -55,5 +55,5 @@ const [value] = useState(() => expensiveInit())
 - Prefer Server Components by default.
 - Keep `use client` boundaries tight.
 - Avoid effect-driven derived state.
-- Watch for client bundle creep as the starter kit grows.
+- Watch for client bundle creep as the app grows.
 - Fix waterfalls before chasing smaller render tweaks.

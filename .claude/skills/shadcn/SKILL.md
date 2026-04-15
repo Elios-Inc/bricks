@@ -1,6 +1,6 @@
 ---
 name: shadcn
-description: Work with shadcn/ui patterns and components in this repo. Use when adding, refining, or reviewing shadcn-style UI primitives, component composition, or design-system building blocks, especially if this starter kit adopts shadcn/ui.
+description: Work with shadcn/ui patterns and components in this repo. Use when adding, refining, or reviewing shadcn-style UI primitives, component composition, or design-system building blocks.
 ---
 
 Use this skill only when the task actually involves shadcn/ui or shadcn-style component patterns.

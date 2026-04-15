@@ -14,7 +14,7 @@ Use this as supplemental guidance for Next.js-specific implementation and review
 - avoiding waterfalls
 - route structure, metadata, and rendering behavior
 
-## How to use in this starter kit
+## How to use in this project
 
 - Default to server-rendered route logic.
 - Keep interactive islands small.

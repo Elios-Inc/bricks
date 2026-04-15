@@ -1,0 +1,23 @@
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/node_modules
+.next
+out
+storybook-static
+test-results
+playwright-report
+/.nx/cache
+/.nx/workspace-data
+*.md
+*.yaml
+*.yml
+*.sql
+*.log
+.env*
+Dockerfile
+Dockerfile.*
+package-lock.json
+bun.lock
+thoughts/
+tmp/

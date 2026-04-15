@@ -1,6 +1,6 @@
 ---
 name: next-best-practices
-description: Apply modern Next.js App Router best practices in this starter kit. Use when creating or reviewing routes, layouts, server and client component boundaries, metadata, data fetching, caching, or other Next.js-specific implementation decisions.
+description: Apply modern Next.js App Router best practices in the Bricks dashboard. Use when creating or reviewing routes, layouts, server and client component boundaries, metadata, data fetching, caching, or other Next.js-specific implementation decisions.
 ---
 
 Use this for Next.js-specific work in this repo.

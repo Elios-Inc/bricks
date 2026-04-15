@@ -1,11 +1,11 @@
 ---
 name: frontend-design
-description: Design and build polished frontend pages and components for this Next.js starter kit. Use when creating or refining UI in the App Router app, styling with Tailwind, improving visual hierarchy, or making the starter kit feel intentional instead of generic.
+description: Design and build polished frontend pages and components for the Bricks dashboard. Use when creating or refining UI in the App Router app, styling with Tailwind, improving visual hierarchy, or making the app feel intentional instead of generic.
 ---
 
 Build frontend UI that feels deliberate, clean, and production-ready.
 
-This repo starts from a minimal Next.js + Convex + Tailwind template, so treat the current scaffold as a foundation, not a finished design system.
+This repo starts from a minimal Next.js + Tailwind template, so treat the current scaffold as a foundation, not a finished design system.
 
 ## First read
 
@@ -24,7 +24,7 @@ Before making meaningful frontend changes, read:
 - Do not hardcode environment-specific values in UI code.
 - Avoid broad global CSS changes unless the task is clearly design-system level.
 
-## Design approach for this starter kit
+## Design approach for Bricks
 
 The imported template is intentionally minimal. Improve it without turning every task into a redesign.
 
@@ -58,7 +58,7 @@ Aim for UI that is:
 - easy to scan
 - strong in spacing and typography
 - not generic AI demo sludge
-- still simple enough for a starter kit
+- still simple enough to extend
 
 ## Default review checklist
 

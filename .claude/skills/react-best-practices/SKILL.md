@@ -1,6 +1,6 @@
 ---
 name: react-best-practices
-description: Apply modern React and Next.js best practices in this starter kit. Use when building or reviewing React components, App Router pages, data fetching, performance-sensitive code, hook usage, client/server boundaries, or when deciding whether `useEffect` is actually necessary.
+description: Apply modern React and Next.js best practices in the Bricks dashboard. Use when building or reviewing React components, App Router pages, data fetching, performance-sensitive code, hook usage, client/server boundaries, or when deciding whether `useEffect` is actually necessary.
 ---
 
 Use this for React and Next.js work in this repo.

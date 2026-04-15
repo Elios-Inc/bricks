@@ -1,6 +1,6 @@
 ---
 name: self-review-checklist
-description: Perform a final self-review against this repo's CLAUDE guidance and starter-kit core conventions before finishing work. Use before finalizing code, docs, config, or pull-request-ready changes in this repository.
+description: Perform a final self-review against this repo's CLAUDE guidance and Bricks core conventions before finishing work. Use before finalizing code, docs, config, or pull-request-ready changes in this repository.
 ---
 
 Use this skill immediately before finalizing work.
@@ -8,7 +8,7 @@ Use this skill immediately before finalizing work.
 ## Workflow
 
 1. Read `CLAUDE.md`.
-2. Read `docs/core-conventions.md`.
+2. Read `docs/agent-guides/core-conventions.md`.
 3. Re-check any touched project-specific files or local conventions.
 4. Confirm relevant task-specific skills were applied.
 5. Confirm deterministic validation was run or explicitly justified.
@@ -38,13 +38,6 @@ Use this skill immediately before finalizing work.
 - If React component, hook, or rendering logic changed, review against `.claude/skills/react-best-practices/SKILL.md` too.
 - If Next.js route, layout, page, metadata, App Router structure, or client/server boundary logic changed, review against `.claude/skills/next-best-practices/SKILL.md` too.
 
-### Convex and deployment review
-
-- Convex URLs and deploy keys are not hardcoded.
-- Vercel and Convex configuration remains environment-driven.
-- Production vs preview environment expectations are clear when relevant.
-- If deployment setup changed, verify it still matches `.claude/skills/convex-vercel-deploy/SKILL.md`.
-- If Convex schema, queries, mutations, actions, validators, indexes, or backend patterns changed, review against `.claude/skills/convex-best-practices/SKILL.md` too.
 
 ### Validation
 

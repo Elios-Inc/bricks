@@ -77,24 +77,40 @@ Only metadata (name + description) is pre-loaded at startup. SKILL.md is read on
 
 SKILL.md is a table of contents pointing to detailed material. Keep core instructions inline; split reference material into sibling files loaded on demand.
 
+### Directory conventions
+
+Skills use two standard subdirectories. Always place supporting files in these rather than loose in the skill root:
+
+| Directory | Purpose | Example files |
+|-----------|---------|---------------|
+| `references/` | Supporting knowledge, templates, examples, domain docs | `brand-voice-guide.md`, `field-taxonomy.md` |
+| `commands/` | Subcommand implementations (skills with multiple entry points) | `hubspot-audit.md`, `outreach-email.md` |
+
 ```text
 my-skill/
 ├── SKILL.md              # Core instructions (loaded when triggered)
-├── reference.md          # Detailed reference (loaded as needed)
-├── examples.md           # Usage examples (loaded as needed)
-└── scripts/
-    └── validate.py       # Utility script (executed, not loaded)
+├── references/
+│   ├── api-reference.md  # Detailed reference (loaded as needed)
+│   └── examples.md       # Usage examples (loaded as needed)
+└── commands/             # Only if skill has distinct subcommands
+    └── audit.md
 ```
 
 **Keep references one level deep.** Claude may partially read files referenced from other referenced files. All reference files must link directly from SKILL.md.
 
 ```markdown
-# Good - flat references from SKILL.md
-**Advanced features**: See [advanced.md](advanced.md)
-**API reference**: See [reference.md](reference.md)
+# Good - references from SKILL.md to files in references/
+**Advanced features**: See [advanced.md](references/advanced.md)
+**API reference**: See [reference.md](references/reference.md)
 
 # Bad - nested references
-SKILL.md → advanced.md → details.md → actual info
+SKILL.md → references/advanced.md → references/details.md → actual info
+
+# Bad - loose files in skill root instead of references/
+my-skill/
+├── SKILL.md
+├── guide.md          # Should be in references/guide.md
+└── examples.md       # Should be in references/examples.md
 ```
 
 For reference files over 100 lines, add a table of contents at the top so Claude can see scope even with partial reads.
@@ -108,24 +124,36 @@ For reference files over 100 lines, add a table of contents at the top so Claude
 [Core instructions inline]
 
 ## Advanced
-See [reference.md](reference.md) for detailed API docs
-See [examples.md](examples.md) for common patterns
+See [reference.md](references/reference.md) for detailed API docs
+See [examples.md](references/examples.md) for common patterns
 ```
 
 **Domain-specific** (multiple knowledge areas):
 ```text
 skill/
 ├── SKILL.md (navigation)
-└── reference/
+└── references/
     ├── finance.md
     ├── sales.md
     └── product.md
 ```
 
+**Multi-command** (distinct subcommands with shared references):
+```text
+skill/
+├── SKILL.md (routing + shared rules)
+├── commands/
+│   ├── audit.md
+│   └── sync.md
+└── references/
+    ├── field-taxonomy.md
+    └── templates.md
+```
+
 **Conditional** (different workflows by task type):
 ```markdown
-**Creating new content?** → See [creation.md](creation.md)
-**Editing existing?** → See [editing.md](editing.md)
+**Creating new content?** → See [creation.md](references/creation.md)
+**Editing existing?** → See [editing.md](references/editing.md)
 ```
 
 ## Writing Instructions
@@ -182,7 +210,7 @@ Guide through decision points explicitly:
 
 ## Executable Code in Skills
 
-See [executable-code.md](executable-code.md) for guidance on bundling scripts, handling errors, utility scripts, verifiable intermediate outputs, dependency management, and MCP tool references.
+See [executable-code.md](references/executable-code.md) for guidance on bundling scripts, handling errors, utility scripts, verifiable intermediate outputs, dependency management, and MCP tool references.
 
 ## Iteration Workflow
 
@@ -207,6 +235,7 @@ Before finishing, verify:
 - [ ] SKILL.md body under 500 lines
 - [ ] Only includes context Claude doesn't already know
 - [ ] References are one level deep from SKILL.md
+- [ ] Supporting files in `references/` or `commands/`, not loose in skill root
 - [ ] Consistent terminology throughout
 - [ ] No time-sensitive information
 - [ ] Workflows have clear numbered steps
