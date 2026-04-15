@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-center gap-4 px-4 py-4 sm:px-6">
           <Image
             src="/logo-white.png"
             alt="Bricks"
