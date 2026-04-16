@@ -8,9 +8,6 @@ Use this skill only when the task actually involves shadcn/ui or shadcn-style co
 ## Role in this repo
 
 This skill complements, not replaces:
-
-- `frontend-design` for design direction
-- `web-design-guidelines` for UI review
 - `react-best-practices` for React and Next.js implementation choices
 
 ## Use it for
