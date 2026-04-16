@@ -37,7 +37,6 @@ Keep guidance concise, broadly applicable, and reusable across most sessions.
 Read more only when needed:
 
 - `docs/core-conventions.md` for trimmed engineering conventions
-- `.claude/skills/frontend-design/SKILL.md` for frontend polish and design work
 - `.claude/skills/self-review-checklist/SKILL.md` before finalizing work
 - `.claude/skills/claude-md-authoring/SKILL.md` when creating or editing `CLAUDE.md`
 
