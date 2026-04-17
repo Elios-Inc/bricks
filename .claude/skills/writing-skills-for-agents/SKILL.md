@@ -212,6 +212,76 @@ Guide through decision points explicitly:
 
 See [executable-code.md](references/executable-code.md) for guidance on bundling scripts, handling errors, utility scripts, verifiable intermediate outputs, dependency management, and MCP tool references.
 
+## Dynamic Context Injection
+
+Skills can inject live data at invocation time using shell command blocks and variable substitution. This keeps skills in sync with the codebase automatically — no manual updates needed.
+
+### Shell command injection (`` !`command` ``)
+
+Commands run **once when the skill is invoked**, before Claude sees the prompt. The output replaces the command block in the skill text.
+
+**Inline form** — single command on one line:
+```markdown
+Current git branch: !`git branch --show-current`
+```
+
+**Block form** — multiple commands in a fenced code block with `!` language tag:
+````markdown
+## Database Schema (auto-injected)
+```!
+cat "$CLAUDE_PROJECT_DIR/libs/types/src/lib/database/schema.ts"
+```
+````
+
+Use `$CLAUDE_PROJECT_DIR` to reference files relative to the project root. This ensures paths work regardless of where Claude Code is invoked from.
+
+**When to use:** Inject schemas, config files, type definitions, or any source-of-truth file that changes over time. This eliminates stale reference docs that drift from the actual code.
+
+**Example — injecting a Drizzle schema so the skill always knows current tables/columns:**
+````markdown
+## Schema (live)
+```!
+cat "$CLAUDE_PROJECT_DIR/libs/types/src/lib/database/schema.ts"
+```
+````
+
+**Example — injecting environment info:**
+````markdown
+## Environment
+```!
+node --version
+npm --version
+git log --oneline -5
+```
+````
+
+### Variable substitution
+
+| Variable | Purpose |
+|----------|---------|
+| `$ARGUMENTS` | All arguments the user passed when invoking the skill |
+| `$0`, `$1`, `$2`, ... | Individual positional arguments |
+| `${CLAUDE_PROJECT_DIR}` | Absolute path to the project root |
+| `${CLAUDE_SKILL_DIR}` | Absolute path to the skill's own directory (useful for bundled scripts) |
+
+**Example — a skill that takes a query as an argument:**
+```markdown
+Run this SQL against the production database:
+$ARGUMENTS
+```
+
+**Example — running a bundled script:**
+```markdown
+!`bash ${CLAUDE_SKILL_DIR}/scripts/fetch-schema.sh`
+```
+
+### Guidelines
+
+- Injected content loads **once at invocation time** and stays in context for the session. If the source file changes mid-session, the skill won't see updates until re-invoked.
+- Keep injected files reasonable in size. A 2,000-line schema is fine; a 20,000-line generated file is not.
+- Add a brief decoder/guide above the injection when the format isn't self-explanatory (e.g., explaining Drizzle column syntax for someone writing raw SQL).
+- Prefer injecting source-of-truth files over maintaining duplicate reference docs. One canonical source, zero drift.
+
 ## Iteration Workflow
 
 1. **Identify gaps:** Run Claude on representative tasks without the skill. Note failures.
