@@ -1,8 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   BarChart3Icon,
   UsersIcon,
+  FileTextIcon,
   TrendingUpIcon,
+  ArrowRightIcon,
 } from "lucide-react";
 
 import {
@@ -12,6 +15,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+const pages = [
+  {
+    href: "/dashboard",
+    icon: BarChart3Icon,
+    title: "Analytics Dashboard",
+    description:
+      "Live views, follower growth, engagement rates, and platform breakdowns across all members.",
+  },
+  {
+    href: "/members",
+    icon: UsersIcon,
+    title: "Members",
+    description:
+      "Tracked people and their public social accounts across every major platform.",
+  },
+  {
+    href: "/content",
+    icon: FileTextIcon,
+    title: "Content",
+    description:
+      "Posts, reels, shorts, and videos with performance metrics and velocity tracking.",
+  },
+  {
+    href: "/reports",
+    icon: TrendingUpIcon,
+    title: "Reports",
+    description:
+      "Weekly and monthly rollups showing real progress and pre-Bricks vs post-Bricks comparisons.",
+  },
+];
 
 export default function Home() {
   return (
@@ -41,22 +75,10 @@ export default function Home() {
           </p>
         </section>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <FeatureCard
-            icon={<UsersIcon className="size-5" />}
-            title="Member Tracking"
-            description="Manage tracked people and their public social accounts across every major platform."
-          />
-          <FeatureCard
-            icon={<BarChart3Icon className="size-5" />}
-            title="Daily Snapshots"
-            description="Automated daily collection of profile metrics, content performance, and follower counts."
-          />
-          <FeatureCard
-            icon={<TrendingUpIcon className="size-5" />}
-            title="Growth Evidence"
-            description="Weekly and monthly rollups that show real progress and pre-Bricks vs post-Bricks comparisons."
-          />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {pages.map((page) => (
+            <LinkCard key={page.href} {...page} />
+          ))}
         </div>
       </main>
 
@@ -67,26 +89,30 @@ export default function Home() {
   );
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
+type LinkCardProps = {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
-}) {
+};
+
+function LinkCard({ href, icon: Icon, title, description }: LinkCardProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base uppercase tracking-wide">
-          {icon}
-          <span>{title}</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <CardDescription>{description}</CardDescription>
-      </CardContent>
-    </Card>
+    <Link href={href} className="group">
+      <Card className="h-full transition-colors group-hover:border-primary/40 group-hover:bg-accent/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base uppercase tracking-wide">
+            <Icon className="size-5" />
+            <span>{title}</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <CardDescription>{description}</CardDescription>
+          <span className="inline-flex items-center gap-1 text-sm text-primary opacity-0 transition-opacity group-hover:opacity-100">
+            Open <ArrowRightIcon className="size-3.5" />
+          </span>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

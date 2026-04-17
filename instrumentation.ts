@@ -16,7 +16,11 @@ export async function register() {
       console.warn("[migrate] DATABASE_URL not set — skipping migrations");
       return;
     }
-    const { migrateDatabase } = await import("@/db/migrate");
-    await migrateDatabase();
+    try {
+      const { migrateDatabase } = await import("@/db/migrate");
+      await migrateDatabase();
+    } catch (err) {
+      console.warn("[migrate] migration failed — continuing without database", err);
+    }
   }
 }
