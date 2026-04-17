@@ -1,5 +1,12 @@
-import { platformCards, platformMeta } from "@/lib/dashboard/data";
+"use client";
+
+import {
+  platformCards,
+  platformMeta,
+  timeframeViewsLabel,
+} from "@/lib/dashboard/data";
 import { PlatformIcon } from "./platform-icon";
+import { useTimeframe } from "./timeframe-context";
 
 function Sparkline({ data, color }: { data: number[]; color: string }) {
   const w = 140;
@@ -23,7 +30,7 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
     <svg viewBox={`0 0 ${w} ${h}`} className="h-9 w-full">
       <defs>
         <linearGradient id={`spark-${color}`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.35" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -41,6 +48,8 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
 }
 
 export function PlatformCards() {
+  const { timeframe } = useTimeframe();
+  const viewsLabel = timeframeViewsLabel(timeframe);
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {platformCards.map((p) => {
@@ -48,26 +57,34 @@ export function PlatformCards() {
         return (
           <div
             key={p.key}
-            className="overflow-hidden rounded-lg border border-white/5 bg-[#1A1A1A]"
+            className="group overflow-hidden rounded-xl border border-white/5 bg-[#141414] transition hover:border-white/15"
           >
-            <div className="h-1 w-full" style={{ background: meta.color }} />
+            <div
+              className="h-1 w-full"
+              style={{
+                background:
+                  p.key === "instagram"
+                    ? "linear-gradient(90deg,#F58529,#DD2A7B,#8134AF)"
+                    : meta.color,
+              }}
+            />
             <div className="p-6">
-              <div className="mb-5 flex items-center justify-between">
+              <div className="mb-5 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2.5">
                   <PlatformIcon platform={p.key} className="size-5" />
                   <span className="text-sm font-semibold text-white">
                     {meta.label}
                   </span>
                 </div>
-                <div className="w-28">
+                <div className="w-32">
                   <Sparkline data={p.spark} color={meta.color} />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 border-b border-white/5 pb-5">
+              <div className="grid grid-cols-3 gap-6 border-b border-white/5 pb-5">
                 <div>
                   <p className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
-                    Total Views
+                    {viewsLabel}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-white tabular-nums">
                     {p.views}
@@ -81,17 +98,17 @@ export function PlatformCards() {
                     {p.followers}
                   </p>
                 </div>
+                <div>
+                  <p className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                    Engagement
+                  </p>
+                  <p className="mt-1 text-2xl font-semibold text-[#00C853] tabular-nums">
+                    {p.engagementRate}
+                  </p>
+                </div>
               </div>
 
               <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                <div>
-                  <dt className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
-                    {p.qualityLabel}
-                  </dt>
-                  <dd className="mt-1 font-mono text-sm text-white tabular-nums">
-                    {p.qualityValue}
-                  </dd>
-                </div>
                 <div>
                   <dt className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
                     CPM Range
@@ -100,19 +117,16 @@ export function PlatformCards() {
                     {p.cpmRange}
                   </dd>
                 </div>
-                <div className="col-span-2 rounded-md border border-[#00C853]/30 bg-[#00C853]/5 p-3">
-                  <dt className="font-mono text-[10px] tracking-[0.2em] text-[#00C853]/80 uppercase">
-                    Est. Value (30D)
-                  </dt>
-                  <dd className="mt-1 text-xl font-semibold text-[#00C853] tabular-nums">
-                    {p.estValue}
-                  </dd>
-                </div>
-                <div className="col-span-2">
+                <div>
                   <dt className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
                     Top Member
                   </dt>
-                  <dd className="mt-1 text-sm text-white">{p.topMember}</dd>
+                  <dd className="mt-1 text-sm text-white">
+                    {p.topMember}
+                    <span className="ml-1 font-mono text-xs text-white/50">
+                      · {p.topMemberViews}
+                    </span>
+                  </dd>
                 </div>
               </dl>
             </div>

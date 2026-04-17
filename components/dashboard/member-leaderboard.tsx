@@ -1,12 +1,14 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import { ChevronDownIcon, ArrowUpRightIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { brettDetail, members, type Member } from "@/lib/dashboard/data";
-import { PlatformIcon } from "./platform-icon";
+import { members, timeframeViewsLabel } from "@/lib/dashboard/data";
+import { useDensity } from "./density-context";
+import { useTimeframe } from "./timeframe-context";
 
-function formatViews(n: number) {
+type Mode = "views" | "followers";
+
+function formatCompact(n: number) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
   return n.toString();
@@ -25,9 +27,9 @@ function engColor(eng: number) {
   return "text-[#FF1744]";
 }
 
-function tagColor(tag: string) {
+function tagClass(tag: string) {
   const map: Record<string, string> = {
-    fitness: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    fitness: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
     lifestyle: "bg-pink-500/10 text-pink-300 border-pink-500/20",
     entrepreneurship: "bg-amber-500/10 text-amber-300 border-amber-500/20",
     automotive: "bg-red-500/10 text-red-300 border-red-500/20",
@@ -44,7 +46,7 @@ function Tags({ tags }: { tags: string[] }) {
       {tags.map((t) => (
         <li
           key={t}
-          className={`rounded-full border px-1.5 py-0.5 text-[10px] tracking-wide ${tagColor(t)}`}
+          className={`rounded-full border px-1.5 py-0.5 text-[10px] tracking-wide ${tagClass(t)}`}
         >
           {t}
         </li>
@@ -61,7 +63,7 @@ function Avatar({ name, size = 32 }: { name: string; size?: number }) {
     .slice(0, 2);
   return (
     <div
-      className="flex items-center justify-center rounded-full bg-linear-to-br from-white/15 to-white/5 font-mono text-[11px] font-semibold text-white/80"
+      className="flex shrink-0 items-center justify-center rounded-full bg-linear-to-br from-white/15 to-white/5 font-mono text-[11px] font-semibold text-white/85"
       style={{ width: size, height: size }}
     >
       {initials}
@@ -69,219 +71,140 @@ function Avatar({ name, size = 32 }: { name: string; size?: number }) {
   );
 }
 
-function ExpandedDetail({ member }: { member: Member }) {
-  if (member.id !== "chell") {
-    return (
-      <div className="rounded-md border border-dashed border-white/10 p-6 text-center text-xs text-white/50">
-        Detailed breakdown for {member.name} coming soon.
-        <br />
-        <a
-          href="#"
-          className="mt-2 inline-flex items-center gap-1 text-xs text-[#00C853]"
-        >
-          View Full Profile <ArrowUpRightIcon className="size-3" />
-        </a>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      {(["personal", "bricks"] as const).map((group) => (
-        <div key={group}>
-          <p className="mb-3 font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
-            {group === "personal" ? "Personal Accounts" : "BRICKS Accounts"}
-          </p>
-          <div className="overflow-hidden rounded-md border border-white/5">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-white/5 text-left text-[10px] tracking-wider text-white/40 uppercase">
-                  <th className="px-3 py-2 font-normal whitespace-nowrap">
-                    Platform
-                  </th>
-                  <th className="px-3 py-2 font-normal whitespace-nowrap">
-                    Handle
-                  </th>
-                  <th className="px-3 py-2 text-right font-normal whitespace-nowrap">
-                    Views
-                  </th>
-                  <th className="px-3 py-2 text-right font-normal whitespace-nowrap">
-                    Eng%
-                  </th>
-                  <th className="px-3 py-2 text-right font-normal whitespace-nowrap">
-                    Followers
-                  </th>
-                  <th className="px-3 py-2 text-right font-normal whitespace-nowrap">
-                    Growth
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {brettDetail[group].map((row) => (
-                  <tr
-                    key={`${row.platform}-${row.handle}`}
-                    className="border-t border-white/5 text-white/80 first:border-t-0"
-                  >
-                    <td className="px-3 py-2">
-                      <PlatformIcon platform={row.platform} className="size-4" />
-                    </td>
-                    <td className="px-3 py-2 font-mono text-xs whitespace-nowrap">
-                      {row.handle}
-                    </td>
-                    <td className="px-3 py-2 text-right font-mono tabular-nums">
-                      {row.views}
-                    </td>
-                    <td className="px-3 py-2 text-right font-mono tabular-nums">
-                      {row.engagement}
-                    </td>
-                    <td className="px-3 py-2 text-right font-mono tabular-nums">
-                      {row.followers}
-                    </td>
-                    <td className="px-3 py-2 text-right font-mono tabular-nums text-[#00C853]">
-                      {row.growth}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ))}
-
-      <div className="lg:col-span-2">
-        <a
-          href="#"
-          className="inline-flex items-center gap-1 text-xs font-medium text-[#00C853] transition hover:text-[#00C853]/80"
-        >
-          View Full Profile <ArrowUpRightIcon className="size-3" />
-        </a>
-      </div>
-    </div>
-  );
-}
-
 export function MemberLeaderboard() {
-  const [expanded, setExpanded] = useState<string | null>("chell");
+  const [mode, setMode] = useState<Mode>("views");
+  const { timeframe } = useTimeframe();
+  const { density } = useDensity();
+  const viewsLabel = timeframeViewsLabel(timeframe);
+  const compact = density === "compact";
+  const cellPad = compact ? "px-3 py-1.5" : "px-4 py-3";
+  const avatarSize = compact ? 24 : 32;
+
+  const ranked = useMemo(() => {
+    const sorted = [...members].sort((a, b) =>
+      mode === "views"
+        ? b.views30d - a.views30d
+        : b.followers - a.followers,
+    );
+    return sorted.map((m, i) => ({ ...m, rank: i + 1 }));
+  }, [mode]);
 
   return (
-    <div className="overflow-hidden rounded-lg border border-white/5 bg-[#1A1A1A]">
-      <div className="-my-2 overflow-x-auto whitespace-nowrap">
-        <div className="inline-block min-w-full py-2 align-middle">
-          <table className="w-full text-sm">
-            <thead className="border-b border-white/5">
-              <tr className="text-left text-[10px] tracking-wider text-white/40 uppercase">
-                <th className="px-4 py-3 font-normal whitespace-nowrap">#</th>
-                <th className="px-4 py-3 font-normal whitespace-nowrap">
-                  Member
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  Total Views
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  YouTube
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  TikTok
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  Instagram
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  Eng%
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  Growth
-                </th>
-                <th className="px-4 py-3 text-right font-normal whitespace-nowrap">
-                  Top Post
-                </th>
-                <th className="px-4 py-3 font-normal whitespace-nowrap" />
-              </tr>
-            </thead>
-            <tbody>
-              {members.map((m) => {
-                const isExpanded = expanded === m.id;
-                const medalColor = medal(m.rank);
-                return (
-                  <Fragment key={m.id}>
-                    <tr
-                      onClick={() => setExpanded(isExpanded ? null : m.id)}
-                      className={[
-                        "cursor-pointer border-t border-white/5 transition hover:bg-white/5",
-                        isExpanded && "bg-white/5",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                    >
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          {medalColor ? (
-                            <span
-                              className="flex size-6 items-center justify-center rounded-full font-mono text-[10px] font-semibold text-[#0D0D0D]"
-                              style={{ background: medalColor }}
-                            >
-                              {m.rank}
-                            </span>
-                          ) : (
-                            <span className="font-mono text-xs text-white/50 tabular-nums">
-                              {m.rank}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-3">
-                          <Avatar name={m.name} />
-                          <div className="flex flex-col gap-1">
-                            <span className="text-sm font-medium text-white">
-                              {m.name}
-                            </span>
-                            <Tags tags={m.tags} />
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-white tabular-nums">
-                        {formatViews(m.totalViews)}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-white/70 tabular-nums">
-                        {formatViews(m.youtube)}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-white/70 tabular-nums">
-                        {formatViews(m.tiktok)}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-white/70 tabular-nums">
-                        {formatViews(m.instagram)}
-                      </td>
-                      <td
-                        className={`px-4 py-3 text-right font-mono text-xs font-semibold tabular-nums ${engColor(m.engagement)}`}
-                      >
-                        {m.engagement.toFixed(1)}%
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-[#00C853] tabular-nums">
-                        +{m.growth.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-white/70 tabular-nums">
-                        {formatViews(m.topPost)}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <ChevronDownIcon
-                          className={`size-4 text-white/40 transition-transform ${isExpanded ? "rotate-180" : ""}`}
-                        />
-                      </td>
-                    </tr>
-                    {isExpanded && (
-                      <tr className="border-t border-white/5 bg-[#141414]">
-                        <td colSpan={10} className="px-6 py-6">
-                          <ExpandedDetail member={m} />
-                        </td>
-                      </tr>
-                    )}
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </table>
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-5 py-3.5">
+        <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
+          14 members · Ranked by {mode === "views" ? viewsLabel : "Followers"}
+        </p>
+        <div
+          role="tablist"
+          aria-label="Rank metric"
+          className="flex items-center gap-0.5 rounded-md border border-white/10 bg-[#0D0D0D] p-0.5"
+        >
+          {(
+            [
+              { key: "views", label: "Views" },
+              { key: "followers", label: "Followers" },
+            ] as const
+          ).map((opt) => {
+            const active = opt.key === mode;
+            return (
+              <button
+                key={opt.key}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setMode(opt.key)}
+                className={[
+                  "rounded-[4px] px-3 py-1 font-mono text-[10px] tracking-wider uppercase transition",
+                  active
+                    ? "bg-white text-[#0D0D0D]"
+                    : "text-white/60 hover:bg-white/10 hover:text-white",
+                ].join(" ")}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
         </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-[10px] tracking-wider text-white/40 uppercase">
+              <th className={`${cellPad} font-normal whitespace-nowrap`}>#</th>
+              <th className={`${cellPad} font-normal whitespace-nowrap`}>
+                Member
+              </th>
+              <th className={`${cellPad} text-right font-normal whitespace-nowrap`}>
+                {mode === "views" ? viewsLabel : "Total Followers"}
+              </th>
+              <th className={`${cellPad} text-right font-normal whitespace-nowrap`}>
+                Eng%
+              </th>
+              <th className={`${cellPad} text-right font-normal whitespace-nowrap`}>
+                Growth
+              </th>
+              <th className={`${cellPad} text-right font-normal whitespace-nowrap`}>
+                Top Post
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {ranked.map((m) => {
+              const medalColor = medal(m.rank);
+              const big = mode === "views" ? m.views30d : m.followers;
+              const growth =
+                mode === "views" ? m.growth30d : m.followerGrowth30d;
+              return (
+                <tr
+                  key={m.id}
+                  className="border-t border-white/5 transition hover:bg-white/5"
+                >
+                  <td className={cellPad}>
+                    {medalColor ? (
+                      <span
+                        className="flex size-6 items-center justify-center rounded-full font-mono text-[10px] font-semibold text-[#0D0D0D]"
+                        style={{ background: medalColor }}
+                      >
+                        {m.rank}
+                      </span>
+                    ) : (
+                      <span className="font-mono text-xs text-white/50 tabular-nums">
+                        {m.rank}
+                      </span>
+                    )}
+                  </td>
+                  <td className={cellPad}>
+                    <div className={`flex items-center ${compact ? "gap-2" : "gap-3"}`}>
+                      <Avatar name={m.name} size={avatarSize} />
+                      <div className="flex min-w-0 flex-col gap-1">
+                        <span className="text-sm font-medium text-white">
+                          {m.name}
+                        </span>
+                        {!compact && <Tags tags={m.tags} />}
+                      </div>
+                    </div>
+                  </td>
+                  <td className={`${cellPad} text-right font-mono text-sm font-semibold text-white tabular-nums`}>
+                    {formatCompact(big)}
+                  </td>
+                  <td
+                    className={`${cellPad} text-right font-mono text-xs font-semibold tabular-nums ${engColor(m.engagement)}`}
+                  >
+                    {m.engagement.toFixed(1)}%
+                  </td>
+                  <td className={`${cellPad} text-right font-mono text-xs text-[#00C853] tabular-nums`}>
+                    +{growth.toLocaleString()}
+                  </td>
+                  <td className={`${cellPad} text-right font-mono text-xs text-white/70 tabular-nums`}>
+                    {formatCompact(m.topPostViews)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
