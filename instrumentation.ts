@@ -12,6 +12,10 @@ export async function register() {
   // The Neon serverless driver is Edge-compatible, but Drizzle's migrator
   // needs node:fs and node:crypto to read SQL files from disk.
   if (process.env.NEXT_RUNTIME === "nodejs") {
+    if (!process.env.DATABASE_URL) {
+      console.warn("[migrate] DATABASE_URL not set — skipping migrations");
+      return;
+    }
     const { migrateDatabase } = await import("@/db/migrate");
     await migrateDatabase();
   }
