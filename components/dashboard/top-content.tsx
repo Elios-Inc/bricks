@@ -1,13 +1,21 @@
+import Image from "next/image";
 import { ArrowUpRightIcon, FlameIcon, MinusIcon, PlayIcon, TrendingDownIcon } from "lucide-react";
 
 import { platformMeta, topContent } from "@/lib/dashboard/data";
 import { PlatformIcon } from "./platform-icon";
 
+const thumbnails = [
+  "/images/social-thumbnails/01-laser-lambo-warehouse.png",
+  "/images/social-thumbnails/02-mclaren-laser-explosion.png",
+  "/images/social-thumbnails/03-triple-supercar-laser-grid.png",
+  "/images/social-thumbnails/04-donuts-smoke-laser-chaos.png",
+];
+
 function trendBadge(trend: "hot" | "steady" | "cooling") {
   if (trend === "hot") {
     return {
       Icon: FlameIcon,
-      cls: "bg-[#FF1744]/15 text-[#FF5A7A] border-[#FF1744]/30",
+      cls: "bg-danger/15 text-danger-text border-danger/30",
       label: "Hot",
     };
   }
@@ -20,7 +28,7 @@ function trendBadge(trend: "hot" | "steady" | "cooling") {
   }
   return {
     Icon: MinusIcon,
-    cls: "bg-[#FFA000]/10 text-[#FFC255] border-[#FFA000]/30",
+    cls: "bg-warning/10 text-warning-text border-warning/30",
     label: "Steady",
   };
 }
@@ -34,13 +42,13 @@ export function TopContent() {
         const TrendIcon = badge.Icon;
         const thumbBg =
           c.platform === "instagram"
-            ? "linear-gradient(135deg, rgba(245,133,41,0.28), rgba(221,42,123,0.24) 40%, rgba(129,52,175,0.22) 70%, #141414 100%)"
-            : `linear-gradient(135deg, ${meta.color}38 0%, ${meta.color}14 45%, #141414 100%)`;
+            ? "linear-gradient(135deg, rgba(245,133,41,0.28), rgba(221,42,123,0.24) 40%, rgba(129,52,175,0.22) 70%, var(--surface-overlay) 100%)"
+            : `linear-gradient(135deg, ${meta.color}38 0%, ${meta.color}14 45%, var(--surface-overlay) 100%)`;
 
         return (
           <article
             key={c.rank}
-            className="group flex flex-col overflow-hidden rounded-xl border border-white/5 bg-[#141414] transition hover:border-white/15 hover:bg-[#181818]"
+            className="group flex flex-col overflow-hidden rounded-xl border border-white/5 bg-surface-overlay transition hover:border-white/15 hover:bg-surface-hover"
           >
             <a
               href={c.url}
@@ -49,6 +57,13 @@ export function TopContent() {
               className="relative block aspect-video w-full overflow-hidden"
               style={{ background: thumbBg }}
             >
+              <Image
+                src={thumbnails[(c.rank - 1) % thumbnails.length]}
+                alt={c.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.08),transparent_65%)]" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="flex size-14 items-center justify-center rounded-full bg-black/55 backdrop-blur-md transition group-hover:scale-110">
@@ -104,7 +119,7 @@ export function TopContent() {
                     <p className="text-[9px] tracking-wider text-white/40 uppercase">
                       Engagement
                     </p>
-                    <p className="text-sm text-[#00C853]">{c.engagement}</p>
+                    <p className="text-sm text-glow">{c.engagement}</p>
                   </div>
                   <div>
                     <p className="text-[9px] tracking-wider text-white/40 uppercase">
@@ -117,7 +132,7 @@ export function TopContent() {
                   href={c.url}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-0.5 rounded-md border border-white/10 px-2 py-1 text-[11px] font-medium text-white/85 transition hover:border-[#00C853]/50 hover:bg-[#00C853]/10 hover:text-[#00C853]"
+                  className="inline-flex items-center gap-0.5 rounded-md border border-white/10 px-2 py-1 text-[11px] font-medium text-white/85 transition hover:border-glow/50 hover:bg-glow/10 hover:text-glow"
                 >
                   View on {c.platformLabel}
                   <ArrowUpRightIcon className="size-3" />

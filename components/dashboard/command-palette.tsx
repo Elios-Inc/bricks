@@ -197,7 +197,7 @@ export function CommandPalette() {
     >
       <div className="flex min-h-full items-start justify-center px-4 pt-[12vh]">
         <div
-          className="w-full max-w-xl overflow-hidden rounded-xl border border-white/10 bg-[#141414] shadow-2xl"
+          className="w-full max-w-xl overflow-hidden rounded-xl border border-white/10 bg-surface-overlay shadow-2xl"
           onKeyDown={onKeyDown}
         >
           <div className="flex items-center gap-3 border-b border-white/5 px-4 py-3">
@@ -259,7 +259,7 @@ export function CommandPalette() {
                             {selected && (
                               <span
                                 aria-hidden
-                                className="absolute inset-y-1 left-0 w-0.5 rounded-r bg-[#00C853]"
+                                className="absolute inset-y-1 left-0 w-0.5 rounded-r bg-glow"
                               />
                             )}
                             <GroupIcon group={item.group} />

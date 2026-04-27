@@ -160,7 +160,7 @@ export function ViewsOverTime() {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 px-6 py-4">
         <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
           Daily Views · {tfLabel}
@@ -184,7 +184,7 @@ export function ViewsOverTime() {
             <span>{priorLabel}</span>
           </li>
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-0 w-4 border-t border-dashed border-[#00C853]" />
+            <span className="inline-block h-0 w-4 border-t border-dashed border-glow" />
             <span>100M/mo pace</span>
           </li>
         </ul>
@@ -228,7 +228,7 @@ export function ViewsOverTime() {
                 x2={W - PAD.right}
                 y1={t.y}
                 y2={t.y}
-                stroke="#ffffff"
+                stroke="white"
                 strokeOpacity="0.06"
               />
               <text
@@ -250,7 +250,7 @@ export function ViewsOverTime() {
           <path
             d={priorLine}
             fill="none"
-            stroke="#ffffff"
+            stroke="white"
             strokeOpacity="0.35"
             strokeWidth="1.25"
             strokeDasharray="3 5"
@@ -260,7 +260,7 @@ export function ViewsOverTime() {
           <path
             d={totalLine}
             fill="none"
-            stroke="#ffffff"
+            stroke="white"
             strokeWidth="1.5"
             strokeDasharray="4 4"
             strokeOpacity="0.9"
@@ -272,7 +272,7 @@ export function ViewsOverTime() {
             x2={W - PAD.right}
             y1={yFor(targetDaily)}
             y2={yFor(targetDaily)}
-            stroke="#00C853"
+            stroke="var(--glow)"
             strokeWidth="1.25"
             strokeDasharray="6 6"
           />
@@ -280,7 +280,7 @@ export function ViewsOverTime() {
             x={W - PAD.right - 4}
             y={yFor(targetDaily) - 6}
             textAnchor="end"
-            className="fill-[#00C853] font-mono text-[10px]"
+            className="fill-glow font-mono text-[10px]"
           >
             100M/mo pace · 3.33M/day
           </text>
@@ -307,7 +307,7 @@ export function ViewsOverTime() {
                 x2={crosshairX}
                 y1={PAD.top}
                 y2={PAD.top + CH}
-                stroke="#ffffff"
+                stroke="white"
                 strokeOpacity={0.25}
                 strokeWidth={1}
               />
@@ -318,7 +318,7 @@ export function ViewsOverTime() {
                   cy={yFor(p.y1)}
                   r={4}
                   fill={platformMeta[p.key].color}
-                  stroke="#141414"
+                  stroke="var(--surface-overlay)"
                   strokeWidth={2}
                 />
               ))}
@@ -328,7 +328,7 @@ export function ViewsOverTime() {
 
         {hover && hoveredDay && hoveredStack ? (
           <div
-            className="pointer-events-none absolute z-10 w-[220px] rounded-lg border border-white/10 bg-[#0f0f0f]/95 p-3 shadow-lg backdrop-blur"
+            className="pointer-events-none absolute z-10 w-[220px] rounded-lg border border-white/10 bg-surface-tooltip/95 p-3 shadow-lg backdrop-blur"
             style={{
               left: tooltipFlip ? undefined : tooltipLeft + 14,
               right: tooltipFlip

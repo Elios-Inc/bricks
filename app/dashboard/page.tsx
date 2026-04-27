@@ -25,7 +25,7 @@ export default function DashboardPage() {
     <TimeframeProvider>
       <ActiveSectionProvider>
       <DensityProvider>
-      <div className="isolate flex min-h-dvh bg-[#0D0D0D] text-white antialiased [font-feature-settings:'ss01','cv11']">
+      <div className="isolate flex min-h-dvh bg-surface-base text-white antialiased [font-feature-settings:'ss01','cv11']">
         <AppSidebar />
 
         <div className="flex min-w-0 flex-1 flex-col">

@@ -18,12 +18,12 @@ export function Scoreboard() {
         const Arrow =
           c.delta?.direction === "up" ? ArrowUpRightIcon : ArrowDownRightIcon;
         const deltaColor =
-          c.delta?.direction === "up" ? "text-[#00C853]" : "text-[#FF1744]";
+          c.delta?.direction === "up" ? "text-glow" : "text-danger";
 
         return (
           <div
             key={c.key}
-            className={`group relative flex flex-col justify-between rounded-xl border border-white/5 bg-[#141414] transition hover:border-white/15 hover:bg-[#181818] ${
+            className={`group relative flex flex-col justify-between rounded-xl border border-white/5 bg-surface-overlay transition hover:border-white/15 hover:bg-surface-hover ${
               compact ? "gap-3 p-3" : "gap-6 p-5"
             }`}
           >

@@ -28,7 +28,7 @@ type NavItem = {
 
 const primaryNav: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: BarChart3Icon },
-  { href: "/members", label: "Members", icon: UsersIcon, badge: "14", disabled: true },
+  { href: "/members", label: "Members", icon: UsersIcon, badge: "17" },
   { href: "/content", label: "Content", icon: LayoutGridIcon, disabled: true },
   { href: "/reports", label: "Reports", icon: FileTextIcon, disabled: true },
 ];
@@ -109,7 +109,7 @@ export function AppSidebar() {
         width: collapsed ? 60 : 232,
         transition: "width 220ms cubic-bezier(0.2, 0, 0, 1)",
       }}
-      className="group/sidebar sticky top-0 z-40 flex h-dvh shrink-0 flex-col overflow-hidden border-r border-white/5 bg-[#0A0A0A]"
+      className="group/sidebar sticky top-0 z-40 flex h-dvh shrink-0 flex-col overflow-hidden border-r border-white/5 bg-surface-inset"
       aria-label="Primary"
     >
       <SidebarHeader
@@ -187,7 +187,7 @@ function SidebarHeader({
       <div className="flex shrink-0 flex-col items-center gap-2 border-b border-white/5 px-2 pt-3 pb-2.5">
         <Link
           href="/dashboard"
-          className="flex size-9 items-center justify-center rounded-md bg-white text-[#0D0D0D] transition hover:bg-white/90"
+          className="flex size-9 items-center justify-center rounded-md bg-white text-surface-base transition hover:bg-white/90"
           aria-label="BRICKS home"
         >
           <span className="text-sm font-black">B</span>
@@ -208,7 +208,7 @@ function SidebarHeader({
     <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-white/5 px-3">
       <Link
         href="/dashboard"
-        className="flex size-9 shrink-0 items-center justify-center rounded-md bg-white text-[#0D0D0D] transition hover:bg-white/90"
+        className="flex size-9 shrink-0 items-center justify-center rounded-md bg-white text-surface-base transition hover:bg-white/90"
         aria-label="BRICKS home"
       >
         <span className="text-sm font-black">B</span>
@@ -257,7 +257,7 @@ function SidebarItem({
       {active && (
         <span
           aria-hidden
-          className="absolute top-1.5 bottom-1.5 left-0 w-[2px] rounded-r bg-[#00C853]"
+          className="absolute top-1.5 bottom-1.5 left-0 w-[2px] rounded-r bg-glow"
         />
       )}
       <Icon className="size-4 shrink-0" strokeWidth={1.75} />
@@ -323,7 +323,7 @@ function DashboardRow({
       {active && (
         <span
           aria-hidden
-          className="absolute top-1.5 bottom-1.5 left-0 w-[2px] rounded-r bg-[#00C853]"
+          className="absolute top-1.5 bottom-1.5 left-0 w-[2px] rounded-r bg-glow"
         />
       )}
       <Link
@@ -374,7 +374,7 @@ function SidebarToc() {
             {active && (
               <span
                 aria-hidden
-                className="absolute top-1/2 -left-[9px] h-4 w-[2px] -translate-y-1/2 rounded-r bg-[#00C853]"
+                className="absolute top-1/2 -left-[9px] h-4 w-[2px] -translate-y-1/2 rounded-r bg-glow"
               />
             )}
             <a
@@ -390,7 +390,7 @@ function SidebarToc() {
               <span
                 className={[
                   "font-mono text-[9px] tracking-wider tabular-nums",
-                  active ? "text-[#00C853]" : "text-white/30",
+                  active ? "text-glow" : "text-white/30",
                 ].join(" ")}
               >
                 {s.number}
@@ -411,13 +411,13 @@ function SidebarFooter({ collapsed }: { collapsed: boolean }) {
         className="flex shrink-0 items-center justify-center border-t border-white/5 px-2 py-3"
         title="Powered by Elios"
       >
-        <span className="size-1.5 rounded-full bg-[#00C853] shadow-[0_0_6px_#00C853]" />
+        <span className="size-1.5 rounded-full bg-glow shadow-[0_0_6px_var(--glow)]" />
       </div>
     );
   }
   return (
     <div className="flex shrink-0 items-center gap-2 border-t border-white/5 px-3 py-3">
-      <span className="size-1.5 shrink-0 rounded-full bg-[#00C853] shadow-[0_0_6px_#00C853]" />
+      <span className="size-1.5 shrink-0 rounded-full bg-glow shadow-[0_0_6px_var(--glow)]" />
       <span className="font-mono text-[9px] tracking-[0.22em] text-white/55 uppercase">
         Powered by Elios
       </span>

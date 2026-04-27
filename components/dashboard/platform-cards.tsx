@@ -57,7 +57,7 @@ export function PlatformCards() {
         return (
           <div
             key={p.key}
-            className="group overflow-hidden rounded-xl border border-white/5 bg-[#141414] transition hover:border-white/15"
+            className="group overflow-hidden rounded-xl border border-white/5 bg-surface-overlay transition hover:border-white/15"
           >
             <div
               className="h-1 w-full"
@@ -102,7 +102,7 @@ export function PlatformCards() {
                   <p className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
                     Engagement
                   </p>
-                  <p className="mt-1 text-2xl font-semibold text-[#00C853] tabular-nums">
+                  <p className="mt-1 text-2xl font-semibold text-glow tabular-nums">
                     {p.engagementRate}
                   </p>
                 </div>

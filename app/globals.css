@@ -62,6 +62,25 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-glow: var(--glow);
+  --color-glow-muted: var(--glow-muted);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-surface-base: var(--surface-base);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-surface-inset: var(--surface-inset);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-tooltip: var(--surface-tooltip);
+  --color-glow-active: var(--glow-active);
+  --color-glow-surface-start: var(--glow-surface-start);
+  --color-glow-surface-end: var(--glow-surface-end);
+  --color-danger-text: var(--danger-text);
+  --color-warning-text: var(--warning-text);
+  --color-medal-gold: var(--medal-gold);
+  --color-medal-silver: var(--medal-silver);
+  --color-medal-bronze: var(--medal-bronze);
 }
 
 :root {
@@ -131,6 +150,25 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --glow: #00C853;
+  --glow-muted: #FFA000;
+  --warning: #FFA000;
+  --danger: #FF1744;
+  --surface-base: #0D0D0D;
+  --surface-raised: #111111;
+  --surface-overlay: #141414;
+  --surface-inset: #0A0A0A;
+  --surface-hover: #181818;
+  --surface-tooltip: #0f0f0f;
+  --glow-active: #00E676;
+  --glow-surface-start: #0E2A18;
+  --glow-surface-end: #101712;
+  --danger-text: #FF5A7A;
+  --warning-text: #FFC255;
+  --medal-gold: #FFD700;
+  --medal-silver: #C0C0C0;
+  --medal-bronze: #CD7F32;
 }
 
 @layer base {

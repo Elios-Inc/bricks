@@ -42,7 +42,7 @@ export function ContentTypePerformance() {
   const totalPieces = contentTypes.reduce((a, c) => a + c.pieces, 0);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-6 py-4">
         <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
           Format mix · {tfPhrase} · {totalPieces.toLocaleString()} posts
@@ -102,7 +102,7 @@ export function ContentTypePerformance() {
                   <p className="font-mono text-[10px] tracking-wider text-white/40 uppercase">
                     Avg engagement
                   </p>
-                  <p className="text-xl font-semibold text-[#00C853] tabular-nums">
+                  <p className="text-xl font-semibold text-glow tabular-nums">
                     {c.avgEngagement.toFixed(1)}%
                   </p>
                 </div>

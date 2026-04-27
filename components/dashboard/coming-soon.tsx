@@ -20,12 +20,12 @@ export function ComingSoon({
     <TimeframeProvider>
       <ActiveSectionProvider>
         <DensityProvider>
-        <div className="isolate flex min-h-dvh bg-[#0D0D0D] text-white antialiased [font-feature-settings:'ss01','cv11']">
+        <div className="isolate flex min-h-dvh bg-surface-base text-white antialiased [font-feature-settings:'ss01','cv11']">
           <AppSidebar />
 
           <div className="flex min-w-0 flex-1 flex-col">
             <main className="flex flex-1 items-center justify-center px-6 py-24">
-              <div className="w-full max-w-md rounded-xl border border-white/5 bg-[#141414] p-12 text-center">
+              <div className="w-full max-w-md rounded-xl border border-white/5 bg-surface-overlay p-12 text-center">
                 <div className="mx-auto mb-6 flex size-12 items-center justify-center rounded-lg bg-white/5 text-white/70">
                   <Icon className="size-6" strokeWidth={1.75} />
                 </div>

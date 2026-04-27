@@ -44,6 +44,11 @@ export const trackedPersonTypeEnum = pgEnum("tracked_person_type", [
   "internal",
 ]);
 
+export const accountCategoryEnum = pgEnum("account_category", [
+  "personal",
+  "business",
+]);
+
 export const contentTypeEnum = pgEnum("content_type", [
   "post",
   "reel",
@@ -60,6 +65,7 @@ export const trackedPeople = pgTable("tracked_people", {
   id,
   name: text("name").notNull(),
   type: trackedPersonTypeEnum("type").notNull(),
+  email: text("email"),
   bricksStartDate: date("bricks_start_date"),
   notes: text("notes"),
   active: boolean("active").notNull().default(true),
@@ -74,6 +80,7 @@ export const socialAccounts = pgTable(
       .notNull()
       .references(() => trackedPeople.id, { onDelete: "cascade" }),
     platform: platformEnum("platform").notNull(),
+    accountCategory: accountCategoryEnum("account_category").notNull(),
     handle: text("handle").notNull(),
     profileUrl: text("profile_url"),
     active: boolean("active").notNull().default(true),

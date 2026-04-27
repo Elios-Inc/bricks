@@ -61,11 +61,11 @@ export function Collaboration() {
     <div className="flex flex-col gap-6">
       {/* Hero row */}
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
-        <div className="flex flex-col justify-between rounded-xl border border-[#00C853]/40 bg-linear-to-br from-[#0E2A18] to-[#101712] p-6 shadow-[0_0_48px_-14px_rgba(0,200,83,0.55)]">
-          <p className="font-mono text-[10px] tracking-[0.22em] text-[#00C853]/80 uppercase">
+        <div className="flex flex-col justify-between rounded-xl border border-glow/40 bg-linear-to-br from-glow-surface-start to-glow-surface-end p-6 shadow-[0_0_48px_-14px_rgba(0,200,83,0.55)]">
+          <p className="font-mono text-[10px] tracking-[0.22em] text-glow/80 uppercase">
             Collaboration Lift
           </p>
-          <p className="mt-3 text-[72px] leading-none font-semibold tracking-tight text-[#00C853] tabular-nums">
+          <p className="mt-3 text-[72px] leading-none font-semibold tracking-tight text-glow tabular-nums">
             {collabHero.lift}
           </p>
           <p className="mt-2 max-w-sm text-xs text-white/60">
@@ -75,7 +75,7 @@ export function Collaboration() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-white/5 bg-[#141414] p-5">
+        <div className="rounded-xl border border-white/5 bg-surface-overlay p-5">
           <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
             Solo Avg Views
           </p>
@@ -86,7 +86,7 @@ export function Collaboration() {
             Per post, no @mention of another member
           </p>
         </div>
-        <div className="rounded-xl border border-white/5 bg-[#141414] p-5">
+        <div className="rounded-xl border border-white/5 bg-surface-overlay p-5">
           <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
             Collab Avg Views
           </p>
@@ -98,7 +98,7 @@ export function Collaboration() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-white/5 bg-[#141414] p-5">
+        <div className="rounded-xl border border-white/5 bg-surface-overlay p-5">
           <div className="flex items-center justify-between">
             <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
               Collabs per month
@@ -109,7 +109,7 @@ export function Collaboration() {
           </div>
           <Sparkline
             values={collabHero.collabsPerMonthSpark}
-            color="#00C853"
+            color="var(--glow)"
           />
           <p className="mt-1 text-[11px] text-white/50">
             12-month trailing, accelerating
@@ -118,14 +118,14 @@ export function Collaboration() {
       </div>
 
       {/* Network graph */}
-      <div className="relative overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+      <div className="relative overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-6 py-4">
           <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
             Collab network · {tfPhrase}
           </p>
           <ul role="list" className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[11px] text-white/65">
             <li className="flex items-center gap-2">
-              <span className="block size-3 rounded-full border border-[#00C853] bg-[#00C853]/15" />
+              <span className="block size-3 rounded-full border border-glow bg-glow/15" />
               <span>Bubble size = {viewsLabel.toLowerCase()}</span>
             </li>
             <li className="flex items-center gap-2">
@@ -160,7 +160,7 @@ export function Collaboration() {
                 y1={a.y * H}
                 x2={b.x * W}
                 y2={b.y * H}
-                stroke={isFocused ? "#00C853" : "#ffffff"}
+                stroke={isFocused ? "var(--glow)" : "white"}
                 strokeOpacity={isFocused ? 0.25 + (e.count / 5) * 0.35 : 0.05}
                 strokeWidth={1 + e.count * 0.9}
                 strokeLinecap="round"
@@ -186,15 +186,15 @@ export function Collaboration() {
                   cx={cx}
                   cy={cy}
                   r={r + 5}
-                  fill="#00C853"
+                  fill="var(--glow)"
                   opacity={isActive ? 0.22 : 0.08}
                 />
                 <circle
                   cx={cx}
                   cy={cy}
                   r={r}
-                  fill="#141414"
-                  stroke={isActive ? "#00E676" : "#00C853"}
+                  fill="var(--surface-overlay)"
+                  stroke={isActive ? "var(--glow-active)" : "var(--glow)"}
                   strokeWidth={isActive ? 2.25 : 1.5}
                 />
                 <text
@@ -258,7 +258,7 @@ function HoverCard({
     .sort((a, b) => b.count - a.count);
 
   return (
-    <div className="pointer-events-none absolute top-16 right-6 z-10 w-64 rounded-lg border border-white/10 bg-[#0D0D0D]/95 p-4 shadow-xl backdrop-blur">
+    <div className="pointer-events-none absolute top-16 right-6 z-10 w-64 rounded-lg border border-white/10 bg-surface-base/95 p-4 shadow-xl backdrop-blur">
       <p className="font-mono text-[10px] tracking-wider text-white/40 uppercase">
         {node.initials} · {node.fullName}
       </p>
@@ -285,7 +285,7 @@ function HoverCard({
         {partners.map((p) => (
           <li key={p.name} className="flex items-center justify-between">
             <span>{p.name}</span>
-            <span className="font-mono text-[11px] tabular-nums text-[#00C853]">
+            <span className="font-mono text-[11px] tabular-nums text-glow">
               {p.count}×
             </span>
           </li>

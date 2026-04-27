@@ -68,18 +68,18 @@ export function GrowthTrajectory() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+      <div className="overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-6 py-4">
           <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
             Before BRICKS vs. After BRICKS · Sep 2025 → Aug 2026
           </p>
           <ul role="list" className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/65">
             <li className="flex items-center gap-1.5">
-              <span className="inline-block h-0.5 w-4 bg-[#00C853]" />
+              <span className="inline-block h-0.5 w-4 bg-glow" />
               <span>Actual (post-BRICKS)</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="inline-block h-0 w-4 border-t border-dashed border-[#00C853]" />
+              <span className="inline-block h-0 w-4 border-t border-dashed border-glow" />
               <span>Projected</span>
             </li>
             <li className="flex items-center gap-1.5">
@@ -97,8 +97,8 @@ export function GrowthTrajectory() {
           <svg viewBox={`0 0 ${W} ${H}`} className="w-full">
             <defs>
               <linearGradient id="actualGrad" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#00C853" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#00C853" stopOpacity="0" />
+                <stop offset="0%" stopColor="var(--glow)" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="var(--glow)" stopOpacity="0" />
               </linearGradient>
             </defs>
 
@@ -109,7 +109,7 @@ export function GrowthTrajectory() {
                   x2={W - PAD.right}
                   y1={yFor(v)}
                   y2={yFor(v)}
-                  stroke="#ffffff"
+                  stroke="white"
                   strokeOpacity="0.06"
                 />
                 <text
@@ -129,7 +129,7 @@ export function GrowthTrajectory() {
               x2={W - PAD.right}
               y1={yFor(100)}
               y2={yFor(100)}
-              stroke="#ffffff"
+              stroke="white"
               strokeOpacity="0.55"
               strokeWidth="1"
               strokeDasharray="6 6"
@@ -150,7 +150,7 @@ export function GrowthTrajectory() {
             <path
               d={baselinePath}
               fill="none"
-              stroke="#ffffff"
+              stroke="white"
               strokeOpacity="0.4"
               strokeWidth="1.25"
               strokeDasharray="4 5"
@@ -160,7 +160,7 @@ export function GrowthTrajectory() {
             <path
               d={actualPath}
               fill="none"
-              stroke="#00C853"
+              stroke="var(--glow)"
               strokeWidth="2.5"
             />
 
@@ -168,7 +168,7 @@ export function GrowthTrajectory() {
             <path
               d={projectedPath}
               fill="none"
-              stroke="#00C853"
+              stroke="var(--glow)"
               strokeWidth="2"
               strokeDasharray="6 5"
               opacity="0.85"
@@ -181,8 +181,8 @@ export function GrowthTrajectory() {
                     cx={xFor(i)}
                     cy={yFor(p.actual)}
                     r={4}
-                    fill="#00C853"
-                    stroke="#0D0D0D"
+                    fill="var(--glow)"
+                    stroke="var(--surface-base)"
                     strokeWidth="1.5"
                   />
                 )}
@@ -191,8 +191,8 @@ export function GrowthTrajectory() {
                     cx={xFor(i)}
                     cy={yFor(p.projected)}
                     r={4}
-                    fill="#0D0D0D"
-                    stroke="#00C853"
+                    fill="var(--surface-base)"
+                    stroke="var(--glow)"
                     strokeWidth="1.5"
                   />
                 )}
@@ -218,21 +218,21 @@ export function GrowthTrajectory() {
                         x2={xFor(i)}
                         y1={pointY - 2}
                         y2={markerY}
-                        stroke="#00C853"
+                        stroke="var(--glow)"
                         strokeOpacity="0.4"
                         strokeWidth="1"
                         strokeDasharray="2 2"
                       />
                       <polygon
                         points={`${xFor(i)},${markerY - markerSize} ${xFor(i) + markerSize},${markerY} ${xFor(i)},${markerY + markerSize} ${xFor(i) - markerSize},${markerY}`}
-                        fill="#00C853"
+                        fill="var(--glow)"
                       />
                       <text
                         x={xFor(i)}
                         y={labelY}
                         textAnchor={nearRightEdge ? "end" : "middle"}
                         className="font-mono text-[9px]"
-                        fill="#00C853"
+                        fill="var(--glow)"
                       >
                         {p.annotation}
                       </text>
@@ -245,7 +245,7 @@ export function GrowthTrajectory() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+      <div className="overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
         <div className="flex items-center justify-between border-b border-white/5 px-6 py-4">
           <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
             Per-member onboarding baseline → current 30D
@@ -291,7 +291,7 @@ export function GrowthTrajectory() {
                   <td className="px-4 py-2.5 text-right font-mono font-semibold tabular-nums">
                     {m.current}
                   </td>
-                  <td className="px-4 py-2.5 text-right font-mono font-semibold text-[#00C853] tabular-nums">
+                  <td className="px-4 py-2.5 text-right font-mono font-semibold text-glow tabular-nums">
                     {m.lift}
                   </td>
                 </tr>

@@ -15,16 +15,16 @@ function formatCompact(n: number) {
 }
 
 function medal(rank: number) {
-  if (rank === 1) return "#FFD700";
-  if (rank === 2) return "#C0C0C0";
-  if (rank === 3) return "#CD7F32";
+  if (rank === 1) return "var(--medal-gold)";
+  if (rank === 2) return "var(--medal-silver)";
+  if (rank === 3) return "var(--medal-bronze)";
   return null;
 }
 
 function engColor(eng: number) {
-  if (eng > 4) return "text-[#00C853]";
-  if (eng >= 2) return "text-[#FFA000]";
-  return "text-[#FF1744]";
+  if (eng > 4) return "text-glow";
+  if (eng >= 2) return "text-warning";
+  return "text-danger";
 }
 
 function tagClass(tag: string) {
@@ -90,7 +90,7 @@ export function MemberLeaderboard() {
   }, [mode]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#141414]">
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-surface-overlay">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-5 py-3.5">
         <p className="font-mono text-[10px] tracking-[0.22em] text-white/45 uppercase">
           14 members · Ranked by {mode === "views" ? viewsLabel : "Followers"}
@@ -98,7 +98,7 @@ export function MemberLeaderboard() {
         <div
           role="tablist"
           aria-label="Rank metric"
-          className="flex items-center gap-0.5 rounded-md border border-white/10 bg-[#0D0D0D] p-0.5"
+          className="flex items-center gap-0.5 rounded-md border border-white/10 bg-surface-base p-0.5"
         >
           {(
             [
@@ -117,7 +117,7 @@ export function MemberLeaderboard() {
                 className={[
                   "rounded-[4px] px-3 py-1 font-mono text-[10px] tracking-wider uppercase transition",
                   active
-                    ? "bg-white text-[#0D0D0D]"
+                    ? "bg-white text-surface-base"
                     : "text-white/60 hover:bg-white/10 hover:text-white",
                 ].join(" ")}
               >
@@ -164,7 +164,7 @@ export function MemberLeaderboard() {
                   <td className={cellPad}>
                     {medalColor ? (
                       <span
-                        className="flex size-6 items-center justify-center rounded-full font-mono text-[10px] font-semibold text-[#0D0D0D]"
+                        className="flex size-6 items-center justify-center rounded-full font-mono text-[10px] font-semibold text-surface-base"
                         style={{ background: medalColor }}
                       >
                         {m.rank}
@@ -194,7 +194,7 @@ export function MemberLeaderboard() {
                   >
                     {m.engagement.toFixed(1)}%
                   </td>
-                  <td className={`${cellPad} text-right font-mono text-xs text-[#00C853] tabular-nums`}>
+                  <td className={`${cellPad} text-right font-mono text-xs text-glow tabular-nums`}>
                     +{growth.toLocaleString()}
                   </td>
                   <td className={`${cellPad} text-right font-mono text-xs text-white/70 tabular-nums`}>
