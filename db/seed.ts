@@ -134,8 +134,8 @@ async function seed() {
 
   for (const member of MEMBERS) {
     const [person] = await sql`
-      INSERT INTO tracked_people (name, type, email)
-      VALUES (${member.name}, 'member', ${member.email})
+      INSERT INTO tracked_people (name, type, email, bricks_start_date)
+      VALUES (${member.name}, 'member', ${member.email}, '2026-04-01')
       RETURNING id
     `;
 

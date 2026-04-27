@@ -10,6 +10,7 @@ import {
   pgEnum,
   index,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 
 // ---------------------------------------------------------------------------
@@ -66,7 +67,7 @@ export const trackedPeople = pgTable("tracked_people", {
   name: text("name").notNull(),
   type: trackedPersonTypeEnum("type").notNull(),
   email: text("email"),
-  bricksStartDate: date("bricks_start_date"),
+  bricksStartDate: date("bricks_start_date").notNull().default(sql`CURRENT_DATE`),
   notes: text("notes"),
   active: boolean("active").notNull().default(true),
   ...timestamps,

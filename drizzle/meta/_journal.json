@@ -15,6 +15,13 @@
       "when": 1777258709183,
       "tag": "0001_glossy_logan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777318710217,
+      "tag": "0002_nappy_earthquake",
+      "breakpoints": true
     }
   ]
 }

@@ -34,7 +34,11 @@ function segmentPath(
   return out.trim();
 }
 
-export function GrowthTrajectory() {
+type Props = {
+  joinDates: Record<string, string>;
+};
+
+export function GrowthTrajectory({ joinDates }: Props) {
   const baselineSeries = trajectory.map((p, i) => ({ i, v: p.baseline }));
   const actualSeries = trajectory.map((p, i) => ({ i, v: p.actual }));
   const projectedSeries = trajectory.map((p, i) => ({ i, v: p.projected }));
@@ -283,7 +287,7 @@ export function GrowthTrajectory() {
                 >
                   <td className="px-6 py-2.5 text-white">{m.name}</td>
                   <td className="px-4 py-2.5 font-mono text-xs text-white/60 tabular-nums">
-                    {m.joinedAt}
+                    {joinDates[m.name] ?? m.joinedAt}
                   </td>
                   <td className="px-4 py-2.5 text-right font-mono tabular-nums">
                     {m.baseline}

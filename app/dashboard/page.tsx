@@ -1,3 +1,5 @@
+import { eq } from "drizzle-orm";
+
 import { ActiveSectionProvider } from "@/components/dashboard/active-section-context";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { Collaboration } from "@/components/dashboard/collaboration";
@@ -15,12 +17,23 @@ import { TimeframeProvider } from "@/components/dashboard/timeframe-context";
 import { TopBar } from "@/components/dashboard/top-bar";
 import { TopContent } from "@/components/dashboard/top-content";
 import { ViewsOverTime } from "@/components/dashboard/views-over-time";
+import { db } from "@/db";
+import { trackedPeople } from "@/db/schema";
 
 export const metadata = {
   title: "BRICKS SLC · Analytics Dashboard",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const people = await db
+    .select({ name: trackedPeople.name, bricksStartDate: trackedPeople.bricksStartDate })
+    .from(trackedPeople)
+    .where(eq(trackedPeople.type, "member"));
+
+  const joinDates: Record<string, string> = {};
+  for (const p of people) {
+    joinDates[p.name] = p.bricksStartDate;
+  }
   return (
     <TimeframeProvider>
       <ActiveSectionProvider>
@@ -110,7 +123,7 @@ export default function DashboardPage() {
             title="Growth since joining"
             description="Each member's onboarding baseline against current performance. Every number is a measured delta, not a projection."
           >
-            <GrowthTrajectory />
+            <GrowthTrajectory joinDates={joinDates} />
           </Section>
           </main>
 
