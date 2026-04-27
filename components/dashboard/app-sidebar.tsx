@@ -7,6 +7,7 @@ import {
   LayoutGridIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
+  ScissorsIcon,
   SettingsIcon,
   UsersIcon,
   type LucideIcon,
@@ -29,6 +30,7 @@ type NavItem = {
 const primaryNav: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: BarChart3Icon },
   { href: "/members", label: "Members", icon: UsersIcon, badge: "17" },
+  { href: "/clipping", label: "Clipping", icon: ScissorsIcon },
   { href: "/content", label: "Content", icon: LayoutGridIcon, disabled: true },
   { href: "/reports", label: "Reports", icon: FileTextIcon, disabled: true },
 ];
