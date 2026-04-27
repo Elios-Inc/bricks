@@ -22,6 +22,20 @@
       "when": 1777318710217,
       "tag": "0002_nappy_earthquake",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777320926971,
+      "tag": "0003_daily_hammerhead",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777324369833,
+      "tag": "0004_spooky_alex_power",
+      "breakpoints": true
     }
   ]
 }

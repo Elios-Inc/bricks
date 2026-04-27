@@ -34,7 +34,7 @@ const primaryNav: NavItem[] = [
 ];
 
 const secondaryNav: NavItem[] = [
-  { href: "/settings", label: "Settings", icon: SettingsIcon, disabled: true },
+  { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 const STORAGE_KEY = "bricks.sidebar.collapsed";
